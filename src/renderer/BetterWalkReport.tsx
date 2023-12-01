@@ -1,4 +1,3 @@
-/* eslint-disable no-plusplus */
 /* eslint-disable no-alert */
 /* eslint-disable no-use-before-define */
 /* eslint-disable react/button-has-type */
@@ -13,22 +12,10 @@ function displayData(data: any[]): React.ReactElement {
   if (data) {
     const groupedData = _.groupBy(data, (row) => row[3]); // Group by the value of row 3
 
-    const areaRanges = {
-      'NORTH SIDE - A': { start: 77, end: 91, counter: 76 }, // Initialize counter with area start value
-      'NORTH SIDE - B': { start: 92, end: 104, counter: 91 }, // Initialize counter with area start value
-      'SOUTH SIDE': { start: 1, end: 13, counter: 0 }, // Initialize counter with area start value
-      GIFT: { start: 13, end: 28, counter: 12 }, // Initialize counter with area start value
-      HOME: { start: 29, end: 56, counter: 28 }, // Initialize counter with area start value
-      GOH: { start: 61, end: 76, counter: 60 }, // Initialize counter with area start value
-      BEAUTY: { start: 6, end: 46, counter: 5 }, // Initialize counter with area start value
-    };
-
     return (
-      <div className="container mt-3">
+      <div className="container mt-3" id="zoomContent" style={{transform: "scale(1)", "transform-origin": "top center"}}>
         <div className="row">
-          <h2 className="fw-bold text-center text-success">
-            Generated Seating Chart
-          </h2>
+          <h2>Parsed Data</h2>
 
           <button
             className="floating-button "
@@ -51,39 +38,19 @@ function displayData(data: any[]): React.ReactElement {
                     <th>Name</th>
                     <th></th>
                     <th>Hours</th>
+
                     <th>Area</th>
-                    <th>Station</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {groupedData[groupKey].map((row) => {
-                    let stationNumber = null;
-
-                    // Check if area exists in ranges
-                    if (row[3] in areaRanges) {
-                      const range = areaRanges[row[3]];
-
-                      // Increment counter and assign station number
-                      range.counter++;
-                      stationNumber = range.counter;
-
-                      // Reset counter if exceeding range
-                      if (stationNumber > range.end) {
-                        range.counter = range.start;
-                        stationNumber = range.start;
-                      }
-                    }
-
-                    return (
-                      <tr key={row[0]}>
-                        <td>{row[0]}</td>
-                        <td>{row[1]}</td>
-                        <td>{row[2]}</td>
-                        <td>{row[3]}</td>
-                        <td>{stationNumber}</td>
-                      </tr>
-                    );
-                  })}
+                  {groupedData[groupKey].map((row) => (
+                    <tr key={row[0]}>
+                      <td>{row[0]}</td>
+                      <td>{row[1]}</td>
+                      <td>{row[2]}</td>
+                      <td>{row[3]}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
@@ -108,6 +75,7 @@ function Better() {
   // Function definitions
   function handleChange(event: React.ChangeEvent<HTMLInputElement>): void {
     const selectedFile = event.target.files?.[0];
+
 
     if (selectedFile) {
       const isExcelFile =
@@ -150,9 +118,31 @@ function Better() {
     reader.readAsBinaryString(file);
   }
 
+  let zoomLevel = 1;
+  const zoomStep = 0.1;
+
+  window.addEventListener('wheel', (event) => {
+    if (event.ctrlKey) {
+
+      event.preventDefault();
+      if (event.deltaY < 0) {
+        // Zoom in
+        if (zoomLevel < 1) {
+          zoomLevel += zoomStep;
+        }
+      } else {
+        // Zoom out
+        zoomLevel -= zoomStep;
+      }
+      console.log(document.getElementById('zoomContent'));
+      document.getElementById(
+        'zoomContent',
+      )!.style.transform = `scale(${zoomLevel})`;
+    }
+  });
   // JSX and conditional rendering
   return (
-    <div className="container">
+    <div>
       <input type="file" onChange={handleChange} accept=".xls, .xlsx, .xlsm" />
       <button className="btn btn-danger" onClick={handleSubmit}>
         Submit
