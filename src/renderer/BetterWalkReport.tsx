@@ -78,9 +78,6 @@ function Better() {
 
 
     if (selectedFile) {
-      setFile(selectedFile);
-      parseExcelSheet(selectedFile);
-      return;
       const isExcelFile =
         selectedFile.type ===
           'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
