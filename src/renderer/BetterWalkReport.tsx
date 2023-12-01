@@ -11,9 +11,21 @@ const _ = require('lodash');
 function displayData(data: any[]): React.ReactElement {
   if (data) {
     const groupedData = _.groupBy(data, (row) => row[3]); // Group by the value of row 3
-
+    const areaRanges = {
+      'NORTH SIDE - A': { start: 77, end: 91, counter: 76 }, // Initialize counter with area start value
+      'NORTH SIDE - B': { start: 92, end: 104, counter: 91 }, // Initialize counter with area start value
+      'SOUTH SIDE': { start: 1, end: 13, counter: 0 }, // Initialize counter with area start value
+      GIFT: { start: 13, end: 28, counter: 12 }, // Initialize counter with area start value
+      HOME: { start: 29, end: 56, counter: 28 }, // Initialize counter with area start value
+      GOH: { start: 61, end: 76, counter: 60 }, // Initialize counter with area start value
+      BEAUTY: { start: 6, end: 46, counter: 5 }, // Initialize counter with area start value
+    };
     return (
-      <div className="container mt-3" id="zoomContent" style={{transform: "scale(1)", "transform-origin": "top center"}}>
+      <div
+        className="container mt-3"
+        id="zoomContent"
+        style={{ transform: 'scale(1)', 'transform-origin': 'top center' }}
+      >
         <div className="row">
           <h2>Parsed Data</h2>
 
@@ -76,7 +88,6 @@ function Better() {
   function handleChange(event: React.ChangeEvent<HTMLInputElement>): void {
     const selectedFile = event.target.files?.[0];
 
-
     if (selectedFile) {
       const isExcelFile =
         selectedFile.type ===
@@ -123,7 +134,6 @@ function Better() {
 
   window.addEventListener('wheel', (event) => {
     if (event.ctrlKey) {
-
       event.preventDefault();
       if (event.deltaY < 0) {
         // Zoom in
