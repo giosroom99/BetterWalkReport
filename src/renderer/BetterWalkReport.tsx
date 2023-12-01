@@ -26,7 +26,9 @@ function displayData(data: any[]): React.ReactElement {
     return (
       <div className="container mt-3">
         <div className="row">
-          <h2>Parsed Data</h2>
+          <h2 className="fw-bold text-center text-success">
+            Generated Seating Chart
+          </h2>
 
           <button
             className="floating-button "
@@ -150,7 +152,7 @@ function Better() {
 
   // JSX and conditional rendering
   return (
-    <div>
+    <div className="container">
       <input type="file" onChange={handleChange} accept=".xls, .xlsx, .xlsm" />
       <button className="btn btn-danger" onClick={handleSubmit}>
         Submit

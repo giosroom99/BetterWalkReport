@@ -39,10 +39,6 @@ if (process.env.NODE_ENV === 'production') {
 const isDebug =
   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
 
-if (isDebug) {
-  require('electron-debug')();
-}
-
 const installExtensions = async () => {
   const installer = require('electron-devtools-installer');
   const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
@@ -111,18 +107,6 @@ const createWindow = async () => {
   // eslint-disable-next-line
   new AppUpdater();
 };
-
-/**
- * Add event listeners...
- */
-
-app.on('window-all-closed', () => {
-  // Respect the OSX convention of having the application in memory even
-  // after all windows have been closed
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
-});
 
 app
   .whenReady()
