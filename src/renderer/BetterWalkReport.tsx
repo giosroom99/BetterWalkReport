@@ -8,7 +8,6 @@ import * as XLSX from 'xlsx';
 
 const _ = require('lodash');
 
-
 function displayData(data: any[]): React.ReactElement {
   if (data) {
     const groupedData = _.groupBy(data, (row) => row[3]); // Group by the value of row 3
