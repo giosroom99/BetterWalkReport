@@ -30,7 +30,7 @@ function displayData(data: any[]): React.ReactElement {
         style={{ transform: 'scale(1)', 'transform-origin': 'top center' }}
       >
         <div className="row">
-          <h2>Parsed Data</h2>
+          <h2>Seating Chart</h2>
 
           <button
             className="floating-button "
